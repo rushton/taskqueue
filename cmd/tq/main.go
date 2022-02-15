@@ -26,7 +26,25 @@ func main() {
 	cmd := args[0]
 
 	if cmd == "done" {
-		tasks.Done()
+		itm, err := tasks.Done()
+		if err != nil {
+			panic(err)
+		}
+		if itm == nil {
+			fmt.Fprintln(os.Stderr, "no tasks in queue, nothing to complete.")
+		} else {
+			fmt.Println(itm)
+		}
+		return
+	}
+	if cmd == "list" {
+		itms, err := tasks.List()
+		if err != nil {
+			panic(err)
+		}
+		for _, itm := range itms {
+			fmt.Println(itm)
+		}
 		return
 	}
 
